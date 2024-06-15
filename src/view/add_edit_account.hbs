@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <%- include('components/head_dashboard'); %>
+    <%- include('components/style_dashboard'); %>
+
+</head>
+<body>
+    <%- include('components/header', {permission:permissionSession}); %>
+
+    <div class="container">
+            <flex-column style="gap: 10px;">
+                <card>
+                    <% if(userForm) {%>
+                    <card-title>Modifica utente <%= userForm.username %></card-title>
+                    <% } else { %>
+                    <card-title>Aggiungi utente</card-title>
+                    <% } %>
+                    <card-content>
+
+                        <flex-column style="gap: 10px;">
+                            <form action="" method="post">
+
+                            <div>Username: <input minlength="5" maxlength="20" type="text" name="username" placeholder="Username" value="<%= userForm?.username || '' %>" <%= userForm !== undefined ? 'disabled' : ''%> <%= userForm == undefined ? 'required':'' %> ></div>
+                            <div>Email:<input type="email" name="email" placeholder="Email" value="<%= userForm?.email || '' %>" <%= userForm == undefined ? 'required':'' %>></div>
+                            <div>Password:<input minlength="10" maxlength="100" type="password" name="password" placeholder="Password" <%= userForm == undefined ? 'required':'' %>></div>
+                            <div>
+                                Stato : <select name="enabled">
+                                <option value="true" <% if(userForm?.enabled == true) { %> selected <% } %>>Abilitato</option>
+                                <option value="false" <% if(userForm?.enabled == false) { %> selected <% } %>>Disabilitato</option>
+                            </select> 
+                        </div>
+                            <div>
+                                <p>Permessi</p>
+                                <flex-column style="gap: 10px;">
+                                    <div><input type="checkbox" name="permission_admin" <% if(permissionForm?.includes("super-admin")) { %> checked <% } %>>Admin</div>
+                                    <div><input type="checkbox" name="permission_internal_door" <% if(permissionForm?.includes("unlock-internal-door")) { %> checked <% } %>> Apertura porta interna</div>
+                                    <div><input type="checkbox" name="permission_external_door" <% if(permissionForm?.includes("unlock-external-door")) { %> checked <% } %>> Apertura porta esterna</div>
+                                </flex-column>
+                            </div>
+                            <% if(userForm) {%>
+                            <button type="submit">Modifica</button>
+                            <% } else { %>
+                            <button type="submit">Aggiungi</button>
+                            <% } %>
+                        </form>
+
+                        </flex-column>
+                    </card-content>
+                </card>
+                <% if(userForm && !currentUser) {%>
+                <card>
+                    <card-title>Elimina utente</card-title>
+                    <card-content>
+                        <flex-wrap style="gap: 10px;">
+                            <form action="/accounts/administration/userForm/delete/<%= userForm.id %>" method="post">
+                                <flex-column>
+                            <p>Sei sicuro di voler eliminare l'utente <strong><%= userForm.username %></strong>?</p>
+                            <div><input type="checkbox" name="confirm" value="true" required></checkbox> Confermi</div>
+                            <button type="submit"value="true">Elimina</button>
+                        </flex-column>
+                        </form>
+                        </flex-wrap>
+                    </card-content>
+                </card>
+                <% } %>
+            </flex-column>
+    </div>
+</body>
+</html>

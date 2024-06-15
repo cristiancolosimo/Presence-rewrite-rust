@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    {{> components/head_dashboard.hbs}}
+    {{> components/style_dashboard.hbs}}
+    <style>
+      
+      .stato {
+        color: white;
+        font-size: 15px;
+        padding: 15px;
+        border-radius: 5px;
+        text-transform: uppercase;
+      }
+      .stato.aperto {
+        background-color: green;
+      }
+      .stato.chiuso {
+        background-color: red;
+      }
+      .status_label::after {
+        display: block;
+        color: white;
+        font-size: 15px;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: red;
+      }
+      .external_door_locked.status_label::after {
+        content: "BLOCCATO";
+      }
+      {{#if externalDoorUnlocked}}
+      .external_door_unlocked.status_label::after {
+        content: "BLOCCATO";
+        animation: blink_external_door_unlocked {{externalDoorTimeout}}s linear;
+        animation-delay: -{{externalDoorUnlockedSince}}ms;
+      }
+      @keyframes blink_external_door_unlocked {
+        0% {
+          background-color: green;
+          content: "SBLOCCATO";
+        }
+        99.9% {
+          background-color: green;
+          content: "SBLOCCATO";
+        }
+        100% {
+          background-color: red;
+          content: "BLOCCATO";
+        }
+      }
+      .external_door_unlocked.control-btn:not(.disabled) {
+        background-color: blue;
+        cursor: pointer;
+        pointer-events: all;
+        animation: control-btn-external-door-unlocked {{externalDoorTimeout}}s linear;
+        animation-delay: -{{externalDoorUnlockedSince}}ms;
+      }
+      @keyframes control-btn-external-door-unlocked {
+        0% {
+          background-color: rgb(186, 195, 198);
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+        99.9% {
+          background-color: rgb(186, 195, 198);
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+        100% {
+          background-color: blue;
+        }
+      }
+      .external_door_unlocked.contatore::after {
+        content: "";
+        display: block;
+        animation: contatore {{externalDoorTimeout}}s linear;
+        animation-delay: -{{externalDoorUnlockedSince}}ms;
+      }
+      @keyframes contatore {
+        {{#each range 0 externalDoorTimeout as |i|}}
+        {{calcPercentage i externalDoorTimeout}}% {
+          content: "{{subtract externalDoorTimeout i}} Secondi";
+        }
+        {{/each}}
+        99.9% {
+          content: "0 Secondi";
+        }
+        100% {
+          content: "";
+        }
+      }
+      {{/if}}
+    </style>
+  </head>
+  <body>
+    {{> components/header.hbs permission=permission}}
+
+    <main class="container">
+      <h1>Control panel</h1>
+      <h2>Bentornato {{username}} 😆</h2>
+      <flex-wrap>
+        <card>
+          <card-title> Porta interna </card-title>
+          <card-content>
+            <div class="stato {{#if internalDoorUnLocked}}aperto{{else}}chiuso{{/if}}">{{#if internalDoorUnLocked}}Aperto{{else}}Chiuso{{/if}}</div>
+            <a class="control-btn" href="/gates/internal/unlock">Apri</a>
+          </card-content>
+        </card>
+        <card>
+          <card-title> Porta esterna </card-title>
+          <card-content>
+            <div class="{{#if externalDoorUnlocked}}external_door_unlocked{{else}}external_door_locked{{/if}} status_label"></div>
+            <a class="control-btn " href="/gates/external/unlock">Apri</a>
+            <div class="contatore"></div>
+          </card-content>
+        </card>
+        <card style="flex:2">
+          <card-title> Ultimi ingressi</card-title>
+          <card-content>
+            <ul style="list-style: disclosure-closed;">
+              {{#each lastestEnters}}
+              <li><strong class="light-green">{{this.username}}</strong> - {{lookup ../logTypeString this.event}} - <strong> {{this.timeSince}}</strong> </li>
+              {{/each}}
+            </ul>
+          </card-content>
+        </card>
+      </flex-wrap>
+    </main>
+  </body>
+</html>

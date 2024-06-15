@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="{{homepage_reload_time}}" />
+    <meta name="description" content="HLCS Presence" />
+    <title>HOME | HLCS Presence</title>
+    {{> components/font.hbs }}
+    <style>
+      html {
+        background-color: #333;
+        color: white;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+        height: 100vh;
+      }
+      body.open .maindata.open {
+        /*display: block;*/
+      }
+      body.open .maindata.closed {
+        display: none;
+      }
+      body.closed .maindata.open {
+        display: none;
+      }
+      body.closed .maindata.closed {
+        /*display: block;*/
+      }
+      .font-40 {
+        font-size: 40px;
+      }
+      .font-30 {
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body {{#if internalDoorUnLocked}}class="open" {{else}} class="closed" {{/if}}>
+    <div style="display: flex; justify-content: space-between">
+      <p class="font-30">HLCS</p>
+      <p>
+        <a href="/admin" style="color: white; text-decoration: none">LOG IN</a>
+      </p>
+    </div>
+    <div class="center maindata open">
+      <p class="font-40">Aperto</p>
+      <br />
+      Siamo aperti? Fantastico!
+      <br />
+      Suona l'interno "024" (*) e ti apriamo :)
+      <br />
+      (*) Tenere premuto fino a che non sentirete John Lennon.
+      <br />
+      Ulteriori info su Presence.
+    </div>
+    <div class="center maindata closed">
+      <strong class="font-40">Chiuso</strong>
+    </div>
+  </body>
+</html>

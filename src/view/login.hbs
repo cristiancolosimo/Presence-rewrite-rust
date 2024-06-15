@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN | HLCS</title>
+    {{> components/font.hbs }}
+    <style>
+        html{
+            background-color: #eee;
+        }
+        input{
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/accounts/login" method="post" class="center">
+        <h1>HLCS Presence</h1>
+        <input type="text" name="username" placeholder="Username o email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="submit" value="Accedi" style="margin-top:10px;background:#3276b1">
+    </form>
+</body>
+</html>

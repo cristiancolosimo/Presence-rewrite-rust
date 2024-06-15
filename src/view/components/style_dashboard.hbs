@@ -1,0 +1,95 @@
+{{> components/font.hbs }}
+
+<style>
+    html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        background-color: #333;
+        color: lightgray;
+        padding: 20px;
+        flex-wrap: wrap;
+        gap:10px;
+      }
+      .container {
+        padding: 20px;
+      }
+      .flex {
+        display: flex;
+      }
+      .wrap {
+        flex-wrap: wrap;
+      }
+      .flex-column {
+        flex-direction: column;
+      }
+      flex-column{
+        display: flex;
+        flex-direction: column;
+      }
+      flex{
+        display:flex;
+      }
+      flex-wrap{
+        display: flex;
+        flex-wrap: wrap;
+      }
+      a {
+        color: lightgray;
+        text-decoration: none;
+      }
+      .control-btn {
+        box-shadow: none;
+        border: none;
+        background-color: blue;
+        color:white;
+        padding: 15px;
+        border-radius: 5px;
+      }
+      .control-btn:hover {
+        cursor: pointer;
+        background-color: #27b8e8;
+      }
+      .control-btn.disabled {
+        background-color: rgb(186, 195, 198);
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      .green{
+        color: green;
+      }
+      .light-green{
+        color: lightgreen;
+      }
+      card {
+        flex:1;
+        min-width: 200px;
+        min-height: 180px;
+        background-color: #333;
+        margin: 10px;
+        border-radius: 10px;
+        padding: 20px;
+        color: lightgray;
+      }
+      card-title {
+        font-size: 20px;
+        font-weight: bold;
+        width: 100%;
+        display: block;
+        margin: -20px 0 40px -20px;
+        padding: 20px;
+        border-radius: 5px 5px 0 0;
+        background-color: lightblue;
+        color: black;
+      }
+      card-content {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      
+</style>

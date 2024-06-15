@@ -1,0 +1,10 @@
+<header>
+    <strong>HLCS Presence</strong>
+    <flex-wrap style="gap:10px">
+      <a href="/accounts/admin">Dashboard</a>
+      <% if(permission.includes("super-admin")){ %>
+      <a href="/accounts/administration">Admin</a>
+      <% } %>
+      <a href="/accounts/logout">Log out</a>
+    </flex-wrap>
+  </header>

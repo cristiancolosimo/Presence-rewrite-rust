@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <%- include('components/head_dashboard'); %>
+    <%- include('components/style_dashboard'); %>
+
+</head>
+<body>
+    <%- include('components/header',{permission}); %>
+    <div class="container">
+        <flex-wrap>
+            <card style="flex:2">
+                <card-title style="display:flex; justify-content: space-between;">Utenti <a  class="control-btn" href="/accounts/administration/user/new" style="padding:5px;font-size:14px">Aggiungi</a></card-title>
+                <card-content style="flex-direction: column;
+                width: 100%;align-items: normal;">
+                    <flex-wrap style="justify-content: space-between;"><p>Utenti totali: <strong><%= platformUsers.totalUsers.length %></strong></p>
+                    <p>Utenti attivi: <strong><%= platformUsers.activeUsers.length %></strong></p>
+                    <p>Utenti inattivi: <strong><%= platformUsers.inactiveUsers.length %></strong></p>
+
+                </flex-wrap>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Permessi</th>
+                                <th>Abilitato</th>
+                                <th>Modifica</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% platformUsers.totalUsers.forEach(function(enter){ %>
+                            <tr>
+                                <td><%= enter.username %></td>
+                                <td><%= enter.email %></td>
+                                <td><%= enter.permission.map(el => permissionTypeString[el.permissionId]).join(" - ") %></td>
+                                <td><%= enter.enabled %></td>
+                                <td><a href="/accounts/administration/user/edit/<%= enter.id %>">Modifica</a></td>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </card-content>
+            </card>
+            <card>
+                <card-title> Ultimi logs 30 logs</card-title>
+                <card-content>
+                    <ol>
+                        <% lastLogs.forEach(function(enter){ %>
+                        <li><strong class="green"><%= enter.username %></strong> - <%= logTypeString[enter.event] %> - <strong> <%= enter.timeSince %></strong> </li>
+                        <% }); %>
+                        </ol>
+                </card-content>
+              </card>
+        </flex-wrap>
+    </div>
+</body>
+</html>
